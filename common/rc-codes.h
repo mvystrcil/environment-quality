@@ -10,3 +10,4 @@
 
 #define IO_ERROR 40
 #define IO_OK 41
+#define ILLEGAL_PIN_NUMBER 42
