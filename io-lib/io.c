@@ -5,9 +5,9 @@
 #define LOW 0
 #define HIGH 1
 
-#define TO_PORTD 8
-#define TO_PORTB 14
-#define TO_PORTC 18
+#define TO_PORTD A_PIN8
+#define TO_PORTB A_A0
+#define TO_PORTC A_A3
 
 uint8_t inline setOutputState(uint8_t pin, uint8_t state);
 
