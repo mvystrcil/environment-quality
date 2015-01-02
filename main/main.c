@@ -1,8 +1,11 @@
 #include <avr/io.h>
 
 //#include "../bt-lib/bt.h"
-//#include "../uart-lib/uart.h"
+#include "../uart-lib/uart.h"
 #include "../io-lib/io.h"
+
+#define BAUDRATE 9600
+#define LED_PIN 13
 
 void wait(int time)
 {
@@ -17,18 +20,24 @@ void wait(int time)
 
 int main(void)
 {
-	setPinDirection(2, 1);
+	setPinDirection(2, OUTPUT);
+	setPinDirection(LED_PIN, OUTPUT);
 	//DDRD |= (1 << 2);
 
-	//uart_init_peripheral(BAUDRATE);	
+	uart_init_peripheral(BAUDRATE);
+	uint16_t inc = 0;
 
 	while(1)
 	{
-		//uart_send_byte('a');
-		setOutputHigh(2);
+		uart_send_string("Welcome to command line of environment meter\n\r");
+		uart_send_string("Num of iterations: ");
+		uart_send_number(inc++);
+		uart_send_string("\n\r");
+
+		setOutputHigh(LED_PIN);
 		//PORTD |= (1 << 2);
 		wait(600);
-		setOutputLow(2);
+		setOutputLow(LED_PIN);
 		wait(600);
 		// Do something useful
 		

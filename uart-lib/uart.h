@@ -9,9 +9,11 @@
 #define INIT_NOK 0
 #define INIT_OK 1
 
-uint8_t uart_init_peripheral(uint8_t baudrate);
-uint8_t uart_send_byte(uint8_t byte);
+uint8_t uart_init_peripheral(uint16_t baudrate);
+uint8_t uart_send_char(uint8_t byte);
 uint8_t uart_read_byte(uint8_t *byte);
+
+uint8_t uart_send_number(uint16_t number);
 
 uint8_t uart_send_word(uint16_t word);
 uint16_t uart_read_word(uint16_t *word);

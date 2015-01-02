@@ -3,23 +3,27 @@
 
 state initialized  = INIT_NOK;
 
-uint8_t uart_init_peripheral(uint8_t baudrate)
+void itoa(uint16_t i, char array[]);
+
+uint8_t uart_init_peripheral(uint16_t baudrate)
 {
-	uint8_t ubrr = F_CPU / 16 / baudrate - 1;
+	uint16_t ubrr = F_CPU / 16 / baudrate - 1;
 	/*Set baud rate */
-	UBRR0H = (unsigned char)(ubrr>>8);
+	UBRR0H = (unsigned char)(ubrr >> 8);
 	UBRR0L = (unsigned char)ubrr;
 	/* Enable receiver and transmitter */
-	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
+	UCSR0B = (1 << RXEN0)|(1 << TXEN0);
 	/* Set frame format: 8data, 1stop bit */
-	UCSR0C = (3<<UCSZ00);
+	UCSR0C = (1 << UCSZ00)|(1 << UCSZ01);
+	
+	//UCSR0A |= (1 << U2X0);
 
 	initialized = INIT_OK;
 
 	return UART_INIT_OK;
 }
 
-uint8_t uart_send_byte(uint8_t byte)
+uint8_t uart_send_char(uint8_t byte)
 {
 	if(initialized == INIT_NOK)
 	{
@@ -32,7 +36,7 @@ uint8_t uart_send_byte(uint8_t byte)
 	}
 
 	/* Put data into buffer, sends the data */
-	UDR0 = byte;
+	UDR0 = (unsigned char) byte;
 
 	return UART_SEND_OK;
 }
@@ -44,8 +48,8 @@ uint8_t uart_read_byte(uint8_t *byte)
 
 uint8_t uart_send_word(uint16_t word)
 {
-	uart_send_byte(word >> 8);
-	return uart_send_byte(word);
+	uart_send_char(word >> 8);
+	return uart_send_char(word);
 }
 
 uint16_t uart_read_word(uint16_t *word)
@@ -60,13 +64,47 @@ uint8_t uart_send_string(char *str)
 		return UART_NOT_INITIALIZED;
 	}
 
-	while(str)
+	while(*str)
 	{
-		if(uart_send_byte(*(str++)) != UART_SEND_OK)
+		if(uart_send_char(*(str++)) != UART_SEND_OK)
 		{
 			return UART_SEND_STRING_ERROR;
 		}
 	}
 
 	return UART_SEND_OK;
+}
+
+uint8_t uart_send_number(uint16_t number)
+{
+	char array[4];
+	
+	itoa(number, array);
+
+	uart_send_string(array);
+
+	return UART_SEND_OK;
+}
+
+/*
+* Private functions
+*/
+void itoa(uint16_t i, char array[])
+{
+	char const digits[] = "0123456789";
+	uint8_t shift = i;
+	char *p = array;
+
+	/* Find the length of number */
+	do {
+		p++;
+		shift = shift / 10;
+	} while(shift);
+
+	*p = 0;
+
+	do {
+		*(--p) = digits[i % 10];
+		i = i / 10;
+	} while (i);
 }
