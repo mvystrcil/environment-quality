@@ -26,3 +26,5 @@
 uint8_t readData();
 uint8_t getTemperature();
 uint8_t getHumidity();
+
+uint8_t initializeDHT();

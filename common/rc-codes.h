@@ -7,6 +7,7 @@
 #define UART_SEND_STRING_ERROR 14
 
 #define DHT_COMMON_ERROR 30
+#define DHT_OK 31
 
 #define IO_ERROR 40
 #define IO_OK 41

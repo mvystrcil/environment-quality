@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include "../common/rc-codes.h"
+#include "../common/types.h"
 #include "io.h"
 
 #define LOW 0

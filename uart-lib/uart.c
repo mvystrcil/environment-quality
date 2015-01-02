@@ -77,7 +77,7 @@ uint8_t uart_send_string(char *str)
 
 uint8_t uart_send_number(uint16_t number)
 {
-	char array[4];
+	char array[10];
 	
 	itoa(number, array);
 
@@ -92,7 +92,7 @@ uint8_t uart_send_number(uint16_t number)
 void itoa(uint16_t i, char array[])
 {
 	char const digits[] = "0123456789";
-	uint8_t shift = i;
+	uint16_t shift = i;
 	char *p = array;
 
 	/* Find the length of number */

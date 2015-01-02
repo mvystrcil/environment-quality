@@ -1,3 +1,6 @@
+#ifndef IO_LIB
+#define IO_LIB
+
 // Analog port definition
 #define A0 14
 #define A1 15
@@ -34,3 +37,5 @@ uint8_t setOutputHigh(uint8_t pin);
 uint8_t setOutputLow(uint8_t pin);
 
 uint8_t readInputLevel(uint8_t pin, uint8_t port, uint8_t *result);
+
+#endif

@@ -3,6 +3,7 @@
 //#include "../bt-lib/bt.h"
 #include "../uart-lib/uart.h"
 #include "../io-lib/io.h"
+#include "../sw-uart/sw_uart.h"
 
 #define BAUDRATE 9600
 #define LED_PIN 13
@@ -26,6 +27,8 @@ int main(void)
 
 	uart_init_peripheral(BAUDRATE);
 	uint16_t inc = 0;
+
+	initializeSWUART(2, 3, 9600);
 
 	while(1)
 	{
