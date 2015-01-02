@@ -1,4 +1,4 @@
-SOURCES = temp-lib.c
+SOURCES = temp-lib.c sw-uart.c
 OBJECTS = $(SOURCES:.c=.o)
 
 all: $(OBJECTS)

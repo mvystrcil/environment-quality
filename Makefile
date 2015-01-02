@@ -6,14 +6,14 @@ HEX = program.hex
 BACKUP = $(HEX)_OLD
 CFLAGS = -g -Wall -c -mmcu=$(MCU_TARGET)
 OBJDIR = $(shell pwd)/obj
-OBJECTS = $(OBJDIR)/uart.o $(OBJDIR)/bt.o $(OBJDIR)/io.o $(OBJDIR)/main.o $(OBJDIR)/sw_uart.o
+OBJECTS = $(OBJDIR)/uart.o $(OBJDIR)/bt.o $(OBJDIR)/io.o $(OBJDIR)/main.o $(OBJDIR)/temp-lib.o $(OBJDIR)/sw-uart.o
 
 export CC
 export MCU_TARGET
 export CFLAGS
 export OBJDIR
 
-all: swuartlib uartlib btlib iolib app
+all: templib uartlib btlib iolib app
 	@echo "Linking together"
 	$(CC) -g -mmcu=$(MCU_TARGET) -o $(TARGET) $(OBJECTS)
 	$(OBJCOPY) -j .text -j .data -O ihex $(TARGET) $(HEX)
@@ -30,9 +30,9 @@ iolib:
 	@echo "Building IO library"
 	cd io-lib; make all
 
-swuartlib:
-	@echo "SW UART library"
-	cd sw-uart; make all
+templib:
+	@echo "Bulding library for DHT sensor"
+	cd temp-lib; make all
 
 app:
 	@echo "Main application"

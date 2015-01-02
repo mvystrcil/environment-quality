@@ -1,6 +1,6 @@
 #ifndef IO_LIB
 #define IO_LIB
-
+#include "../common/types.h"
 // Analog port definition
 #define A0 14
 #define A1 15
