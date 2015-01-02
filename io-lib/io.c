@@ -5,9 +5,9 @@
 #define LOW 0
 #define HIGH 1
 
-#define TO_PORTD A_PIN8
-#define TO_PORTB A_A0
-#define TO_PORTC A_A3
+#define TO_PORTD 7
+#define TO_PORTB 13
+#define TO_PORTC 17
 
 uint8_t inline setOutputState(uint8_t pin, uint8_t state);
 
@@ -19,16 +19,18 @@ void inline processPORTDState(uint8_t pin, uint8_t state);
 void inline processPORTBState(uint8_t pin, uint8_t state);
 void inline processPORTCState(uint8_t pin, uint8_t state);
 
+uint8_t pin_mapping[] = {PD2, PD3, PD4, PD5, PD6, PD7, PB0, PB1, PB2, PB3, PB4, PB5, PC0, PC1, PC2, PC3};
+
 /* setPinDirection (PB7, PORTB, DDRB, 0/1) */
 uint8_t setPinDirection(uint8_t pin, uint8_t direction)
 {
-	if(pin < TO_PORTD && pin >= PIN_MIN)
+	if(pin <= TO_PORTD)
 	{
-		processPORTDDirection(pin, direction);
-	} else if (pin < TO_PORTB) {
-		processPORTBDirection(pin, direction);
-	} else if (pin < TO_PORTC && pin <= PIN_MAX){
-		processPORTCDirection(pin, direction);
+		processPORTDDirection(pin_mapping[pin-2], direction);
+	} else if (pin <= TO_PORTB) {
+		processPORTBDirection(pin_mapping[pin-2], direction);
+	} else if (pin <= TO_PORTC){
+		processPORTCDirection(pin_mapping[pin-2], direction);
 	} else {
 		return ILLEGAL_PIN_NUMBER;
 	}
@@ -57,13 +59,13 @@ uint8_t readInputLevel(uint8_t pin, uint8_t port, uint8_t *result)
 
 uint8_t inline setOutputState(uint8_t pin, uint8_t state)
 {
-	if(pin < TO_PORTD && pin >= PIN_MIN)
+	if(pin <= TO_PORTD)
         {
-                processPORTDState(pin, state);
-        } else if (pin < TO_PORTB) {
-                processPORTBState(pin, state);
-        } else if (pin < TO_PORTC && pin <= PIN_MAX){
-                processPORTCState(pin, state);
+                processPORTDState(pin_mapping[pin-2], state);
+        } else if (pin <= TO_PORTB) {
+                processPORTBState(pin_mapping[pin-2], state);
+        } else if (pin <= TO_PORTC){
+                processPORTCState(pin_mapping[pin-2], state);
         } else {
                 return ILLEGAL_PIN_NUMBER;
         }

@@ -7,7 +7,7 @@ BACKUP = $(HEX)_OLD
 CFLAGS = -g -Wall -c -mmcu=$(MCU_TARGET)
 OBJDIR = $(shell pwd)/obj
 #OBJECTS = $(OBJDIR)/uart.o $(OBJDIR)/bt.o $(OBJDIR)/io.o $(OBJDIR)/main.o
-OBJECTS = $(OBJDIR)/main.o $(OBJDIR)/io.o
+OBJECTS = $(OBJDIR)/io.o $(OBJDIR)/main.o
 
 export CC
 export MCU_TARGET
@@ -35,7 +35,7 @@ app:
 	@echo "Main application"
 	cd main; make all
 
-flash:
+flash: all
 	avrdude -C /etc/avrdude.conf -p $(MCU_TARGET) -c arduino -P /dev/ttyUSB0 -b 57600 -D -U flash:w:$(HEX)
 
 backup:

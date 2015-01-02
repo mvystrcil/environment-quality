@@ -4,9 +4,6 @@
 //#include "../uart-lib/uart.h"
 #include "../io-lib/io.h"
 
-#define AA DDRD
-#define BB PORTD
-
 void wait(int time)
 {
 	int i,j;
@@ -20,13 +17,18 @@ void wait(int time)
 
 int main(void)
 {
-	setPinDirection(A_PIN2, OUTPUT);
+	setPinDirection(2, 1);
+	//DDRD |= (1 << 2);
+
+	//uart_init_peripheral(BAUDRATE);	
 
 	while(1)
 	{
-		setOutputHigh(A_PIN2);
+		//uart_send_byte('a');
+		setOutputHigh(2);
+		//PORTD |= (1 << 2);
 		wait(600);
-		setOutputLow(A_PIN2);
+		setOutputLow(2);
 		wait(600);
 		// Do something useful
 		

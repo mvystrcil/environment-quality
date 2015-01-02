@@ -7,6 +7,7 @@
 #define INPUT 0
 #define OUTPUT 1
 
+#define NC 0
 #define A_PIN2 PD2
 #define A_PIN3 PD3
 #define A_PIN4 PD4
