@@ -1,7 +1,16 @@
 #include "../common/types.h"
 #include "../io-lib/io.h"
 #include "../uart-lib/uart.h"
+#include "../common/delay.h"
+
 #include "sw-uart.h"
+
+
+void sw_uart_send_byte(uint8_t byte);
+
+uint8_t receive_buffer[124];
+uint8_t tx, rx;
+uint8_t _delay_us;
 
 uint8_t initializeSWUART(uint8_t txd, uint8_t rxd, uint16_t baudrate)
 {
@@ -14,6 +23,55 @@ uint8_t initializeSWUART(uint8_t txd, uint8_t rxd, uint16_t baudrate)
 	uart_send_number(baudrate);
 	uart_send_string("\r\n");
 
-	setPinDirection(txd, OUTPUT);
-	setPinDirection(rxd, INPUT);
+	tx = txd;
+	rx = rxd;
+	_delay_us = 1000000 / baudrate;
+
+	uart_send_string("Delay: ");
+	uart_send_number(_delay_us);
+	uart_send_string("\r\n");
+
+	setPinDirection(tx, OUTPUT);
+	setPinDirection(rx, INPUT);
+	setOutputHigh(txd);
+	delay_us(_delay_us);
+
+	return IO_OK;
+}
+
+uint8_t sw_uart_send_string(char *str)
+{
+	while(*str)
+	{
+		sw_uart_send_byte(*(str++));
+	}
+
+	return IO_OK;
+}
+
+void sw_uart_send_byte(uint8_t byte)
+{
+	uint8_t i;
+	setOutputLow(tx);
+	delay_us(_delay_us);
+
+	for(i = 0; i < 8; i++)
+	{
+		if(byte & 0x80)
+		{
+			setOutputHigh(tx);
+		} else {
+			setOutputLow(tx);
+		}
+
+		byte = (byte << 1);
+		delay_us(_delay_us);
+	}
+
+	setOutputHigh(tx);
+}
+
+uint8_t sw_uart_read_byte()
+{
+	return IO_OK;
 }

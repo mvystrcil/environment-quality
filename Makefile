@@ -6,14 +6,14 @@ HEX = program.hex
 BACKUP = $(HEX)_OLD
 CFLAGS = -g -Wall -c -mmcu=$(MCU_TARGET)
 OBJDIR = $(shell pwd)/obj
-OBJECTS = $(OBJDIR)/uart.o $(OBJDIR)/bt.o $(OBJDIR)/io.o $(OBJDIR)/main.o $(OBJDIR)/temp-lib.o $(OBJDIR)/sw-uart.o
+OBJECTS = $(OBJDIR)/uart.o $(OBJDIR)/bt.o $(OBJDIR)/io.o $(OBJDIR)/main.o $(OBJDIR)/temp-lib.o $(OBJDIR)/sw-uart.o $(OBJDIR)/delay.o
 
 export CC
 export MCU_TARGET
 export CFLAGS
 export OBJDIR
 
-all: templib uartlib btlib iolib app
+all: commonlib templib uartlib btlib iolib app
 	@echo "Linking together"
 	$(CC) -g -mmcu=$(MCU_TARGET) -o $(TARGET) $(OBJECTS)
 	$(OBJCOPY) -j .text -j .data -O ihex $(TARGET) $(HEX)
@@ -33,6 +33,10 @@ iolib:
 templib:
 	@echo "Bulding library for DHT sensor"
 	cd temp-lib; make all
+
+commonlib:
+	@echo "Building common library"
+	cd common; make all
 
 app:
 	@echo "Main application"

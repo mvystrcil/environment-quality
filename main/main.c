@@ -32,7 +32,6 @@ int main(void)
 
 	while(1)
 	{
-		uart_send_string("Welcome to command line of environment meter\n\r");
 		uart_send_string("Num of iterations: ");
 		uart_send_number(inc++);
 		uart_send_string("\n\r");
