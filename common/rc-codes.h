@@ -12,3 +12,6 @@
 #define IO_ERROR 40
 #define IO_OK 41
 #define ILLEGAL_PIN_NUMBER 42
+
+#define MQ135_ERROR 50
+#define MQ135_OK 51

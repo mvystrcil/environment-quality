@@ -6,14 +6,14 @@ HEX = program.hex
 BACKUP = $(HEX)_OLD
 CFLAGS = -g -Wall -c -mmcu=$(MCU_TARGET)
 OBJDIR = $(shell pwd)/obj
-OBJECTS = $(OBJDIR)/uart.o $(OBJDIR)/bt.o $(OBJDIR)/io.o $(OBJDIR)/main.o $(OBJDIR)/temp-lib.o $(OBJDIR)/sw-uart.o $(OBJDIR)/delay.o
+OBJECTS = $(OBJDIR)/uart.o $(OBJDIR)/bt.o $(OBJDIR)/io.o $(OBJDIR)/main.o $(OBJDIR)/temp-lib.o $(OBJDIR)/sw-uart.o $(OBJDIR)/delay.o $(OBJDIR)/mq135-lib.o
 
 export CC
 export MCU_TARGET
 export CFLAGS
 export OBJDIR
 
-all: commonlib templib uartlib btlib iolib app
+all: mq135lib commonlib templib uartlib btlib iolib app
 	@echo "Linking together"
 	$(CC) -g -mmcu=$(MCU_TARGET) -o $(TARGET) $(OBJECTS)
 	$(OBJCOPY) -j .text -j .data -O ihex $(TARGET) $(HEX)
@@ -37,6 +37,9 @@ templib:
 commonlib:
 	@echo "Building common library"
 	cd common; make all
+mq135lib:
+	@echo "Building MQ135 library"
+	cd mq135-lib; make all
 
 app:
 	@echo "Main application"

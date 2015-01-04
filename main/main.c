@@ -4,6 +4,7 @@
 #include "../uart-lib/uart.h"
 #include "../io-lib/io.h"
 #include "../temp-lib/temp-lib.h"
+#include "../mq135-lib/mq135-lib.h"
 
 #define BAUDRATE 9600
 #define LED_PIN 13
@@ -26,16 +27,14 @@ int main(void)
 	//DDRD |= (1 << 2);
 
 	uart_init_peripheral(BAUDRATE);
-	uint16_t inc = 0;
-
 	initializeDHT();
+	float f = 0.0;
+
+	mq135_initialize(0);
+	mq135_read_co2(&f);
 
 	while(1)
 	{
-		uart_send_string("Num of iterations: ");
-		uart_send_number(inc++);
-		uart_send_string("\n\r");
-
 		setOutputHigh(LED_PIN);
 		//PORTD |= (1 << 2);
 		wait(600);
