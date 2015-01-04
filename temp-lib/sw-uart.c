@@ -51,20 +51,21 @@ uint8_t sw_uart_send_string(char *str)
 
 void sw_uart_send_byte(uint8_t byte)
 {
-	uint8_t i;
+	uint8_t mask;
 	setOutputLow(tx);
 	delay_us(_delay_us);
 
-	for(i = 0; i < 8; i++)
+	for(mask = 0x1; mask; mask <<= 1)
 	{
-		if(byte & 0x80)
+		if(byte & mask)
 		{
+			uart_send_number(1);
 			setOutputHigh(tx);
 		} else {
+			uart_send_number(0);
 			setOutputLow(tx);
 		}
 
-		byte = (byte << 1);
 		delay_us(_delay_us);
 	}
 

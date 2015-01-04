@@ -12,7 +12,7 @@ uint8_t initializeDHT()
 {
 	initializeSWUART(TXD, RXD, DHT_BAUDRATE);
 	uart_send_string("DHT peripheral is ready to use\n\r");
-	sw_uart_send_byte('a');
+	sw_uart_send_string("a");
 	return DHT_OK;
 }
 
