@@ -10,6 +10,7 @@
 #define INPUT 0
 #define OUTPUT 1
 
+
 #define NC 0
 #define A_PIN2 PD2
 #define A_PIN3 PD3
@@ -28,6 +29,14 @@
 #define A_A2 PC2
 #define A_A3 PC3
 
+#define AREF 0
+#define AVCC 1
+#define INTERNAL 3
+
+#define PRESCALER_32 5
+#define PRESCALER_64 6
+#define PRESCALER_128 7
+
 #define PIN_MIN A_PIN2
 #define PIN_MAX A_A3
 
@@ -37,5 +46,8 @@ uint8_t setOutputHigh(uint8_t pin);
 uint8_t setOutputLow(uint8_t pin);
 
 uint8_t readInputLevel(uint8_t pin, uint8_t port, uint8_t *result);
+
+uint8_t setPinAD(uint8_t reference, uint8_t prescaler);
+uint16_t readADValue(uint8_t pin);
 
 #endif

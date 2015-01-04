@@ -53,6 +53,31 @@ uint8_t readInputLevel(uint8_t pin, uint8_t port, uint8_t *result)
 	return IO_OK;
 }
 
+uint8_t setPinAD(uint8_t reference, uint8_t prescaler)
+{
+	ADMUX = (reference << 6);
+	ADCSRA = (1 << ADEN);
+	ADCSRA |= prescaler;
+
+	return IO_OK;
+}
+
+uint16_t readADValue(uint8_t pin)
+{
+	uint16_t val = 0;
+	// clear and set channel number to be read
+	ADMUX = (ADMUX & 0xF8) | pin;
+
+	// start conversion
+	ADCSRA |= (1 << ADSC);
+
+	while(ADCSRA & (1 << ADSC));
+	val = ADCL;
+	val |= (ADCH << 8);
+
+	return val;
+}
+
 /*
 * Private functions
 */
